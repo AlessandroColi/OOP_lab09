@@ -15,7 +15,7 @@ import javax.swing.SwingUtilities;
  * This is a first example on how to realize a reactive GUI.
  * This shows an alternative solutions using lambdas
  */
-public final class ConcurrentGUI extends JFrame {
+public class ConcurrentGUI extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private static final double WIDTH_PERC = 0.2;
@@ -24,6 +24,7 @@ public final class ConcurrentGUI extends JFrame {
     private final JButton stop = new JButton("stop");
     private final JButton up = new JButton("up");
     private final JButton down = new JButton("down");
+    final Agent agent = new Agent();
     /**
      * Builds a new CGUI.
      */
@@ -44,17 +45,23 @@ public final class ConcurrentGUI extends JFrame {
          * thread management should be left to
          * java.util.concurrent.ExecutorService
          */
-        final Agent agent = new Agent();
         new Thread(agent).start();
         /*
          * Register a listener that stops it
          */
-        stop.addActionListener((e) -> agent.stopCounting());
+        stop.addActionListener((e) -> this.stop());
         up.addActionListener((e) -> agent.increase());
         down.addActionListener((e) -> agent.decrease());
     }
 
-    /*
+    public void stop() {
+		agent.stopCounting();
+		stop.setEnabled(false);
+		up.setEnabled(false);
+		down.setEnabled(false);
+	}
+
+	/*
      * The counter agent is implemented as a nested class. This makes it
      * invisible outside and encapsulated.
      */
