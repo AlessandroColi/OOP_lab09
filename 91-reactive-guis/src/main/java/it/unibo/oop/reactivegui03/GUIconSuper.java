@@ -11,6 +11,7 @@ public class GUIconSuper extends ConcurrentGUI {
 	GUIconSuper(){
 		super();
 		Control ctrl = new Control();
+		new Thread(ctrl).start();
 	}
 	
 private class Control implements Runnable{
